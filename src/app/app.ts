@@ -1,6 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { type Lang, STRINGS } from './i18n';
 
 const REPO = 'https://github.com/Im-Fran/Netherite';
+
+// ponytail: client-side only, so crawlers and no-JS visitors get English; move to Angular's built-in i18n builds if per-locale SEO matters.
+function initialLang(): Lang {
+  try {
+    const saved = localStorage.getItem('lang');
+    if (saved === 'en' || saved === 'es') return saved;
+  } catch {}
+  return navigator.language.startsWith('es') ? 'es' : 'en';
+}
 
 @Component({
   selector: 'app-root',
@@ -11,42 +22,27 @@ export class App {
   readonly download = `${REPO}/releases/latest`;
   readonly year = new Date().getFullYear();
 
-  readonly groups = [
-    {
-      title: 'Writing',
-      items: [
-        ['Live Preview editor', 'Built on TextKit 2. Tasks, callouts, tables, math and Mermaid render in place; the Markdown only reappears on the line you edit.'],
-        ['Reading view', 'The whole note rendered with interactive tasks, embeds and syntax-highlighted code.'],
-        ['Completions', '[[ for links and headings, # for tags, / for slash commands and templates.'],
-        ['Properties', 'YAML frontmatter edited as typed fields: text, number, checkbox, date and list.'],
-      ],
-    },
-    {
-      title: 'Connecting ideas',
-      items: [
-        ['Links & backlinks', 'Wikilinks, heading and ^block references, unlinked mentions, outline and footnotes.'],
-        ['Rename-safe', 'Rename or move a note and every link pointing to it is rewritten.'],
-        ['Graph view', 'Global and local force-directed graph with filters and tag colouring.'],
-        ['Search', 'Full-text with tag:, path:, task:, [property:value], "phrases", OR and /regex/.'],
-      ],
-    },
-    {
-      title: 'Visual thinking',
-      items: [
-        ['Canvas', 'An infinite board of text, note, web and group cards. JSON Canvas compatible.'],
-        ['Bases', '.base files that filter, sort and edit notes by their properties as tables, cards or lists.'],
-        ['Core plugins', 'Daily notes, templates, bookmarks, workspaces, slides, audio recorder and more.'],
-        ['Themes', 'JSON themes with light and dark variants, right inside your vault.'],
-      ],
-    },
-    {
-      title: 'Everywhere',
-      items: [
-        ['iCloud Drive sync', 'Or any local folder. Obsidian vaults open as-is.'],
-        ['System integration', 'Share-sheet web clipper, widgets, Control Center, Shortcuts, Siri and Spotlight.'],
-        ['Importer', 'Evernote, Notion, HTML and Apple Notes exports, and plain Markdown folders.'],
-        ['Publish & CLI', 'Export a static site and deploy it to Cloudflare Pages, from the app or the netherite CLI.'],
-      ],
-    },
-  ];
+  readonly lang = signal<Lang>(initialLang());
+  readonly strings = computed(() => STRINGS[this.lang()]);
+  readonly other = computed<Lang>(() => (this.lang() === 'en' ? 'es' : 'en'));
+  readonly otherName = computed(() => STRINGS[this.other()].langName);
+
+  constructor() {
+    const title = inject(Title);
+    const meta = inject(Meta);
+    effect(() => {
+      const t = this.strings();
+      document.documentElement.lang = this.lang();
+      title.setTitle(t.title);
+      meta.updateTag({ name: 'description', content: t.description });
+    });
+  }
+
+  toggle() {
+    const next = this.other();
+    this.lang.set(next);
+    try {
+      localStorage.setItem('lang', next);
+    } catch {}
+  }
 }

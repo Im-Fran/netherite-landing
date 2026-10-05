@@ -1,16 +1,19 @@
-<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent">Skip to content</a>
+@let t = strings();
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-on-accent">{{ t.skip }}</a>
 
 <header class="sticky top-0 z-40 border-b border-ink/10 bg-bg/80 backdrop-blur-xl">
-  <nav class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6" aria-label="Main">
+  <nav class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6" [attr.aria-label]="t.nav.label">
     <a href="#" class="flex items-center gap-2 font-semibold tracking-tight">
       <img src="icon.png" alt="" width="28" height="28" class="size-7 rounded-md" />
       Netherite
     </a>
     <div class="flex items-center gap-1 text-sm sm:gap-4">
-      <a href="#features" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">Features</a>
-      <a href="#open" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">Open source</a>
-      <a [href]="repo" class="rounded-md px-2 py-1 text-muted hover:text-ink">GitHub</a>
-      <a [href]="download" class="rounded-full bg-accent px-4 py-1.5 font-medium text-on-accent hover:opacity-90">Download</a>
+      <a href="#features" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.features }}</a>
+      <a href="#open" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.open }}</a>
+      <a [href]="repo" class="rounded-md px-2 py-1 text-muted hover:text-ink">{{ t.nav.github }}</a>
+      <button type="button" (click)="toggle()" [attr.lang]="other()" [attr.aria-label]="otherName()" [title]="otherName()" class="rounded-md px-2 py-1 font-medium text-muted hover:text-ink">{{ other().toUpperCase() }}</button>
+      <a [href]="download" class="rounded-full bg-accent px-4 py-1.5 font-medium text-on-accent hover:opacity-90">{{ t.nav.download }}</a>
     </div>
   </nav>
 </header>
@@ -20,22 +23,22 @@
   <section class="relative overflow-hidden">
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -top-40 mx-auto h-[36rem] max-w-4xl rounded-full bg-accent/20 blur-3xl"></div>
     <div class="relative mx-auto max-w-6xl px-4 pt-20 pb-16 text-center sm:px-6 sm:pt-28">
-      <img src="icon.png" alt="Netherite app icon" width="112" height="112" class="mx-auto size-24 drop-shadow-2xl sm:size-28" />
+      <img src="icon.png" [alt]="t.hero.iconAlt" width="112" height="112" class="mx-auto size-24 drop-shadow-2xl sm:size-28" />
       <h1 class="mx-auto mt-8 max-w-3xl text-4xl font-bold tracking-tight text-balance sm:text-6xl">
-        Your knowledge, in plain&nbsp;Markdown you&nbsp;own.
+        {{ t.hero.title }}
       </h1>
       <p class="mx-auto mt-6 max-w-2xl text-lg text-pretty text-muted sm:text-xl">
-        A native, local-first notes app for Mac, iPhone and iPad. Built with SwiftUI, it opens your Obsidian vaults as-is.
+        {{ t.hero.subtitle }}
       </p>
       <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <a [href]="download" class="w-full rounded-full bg-accent px-6 py-3 font-semibold text-on-accent shadow-lg shadow-accent/30 hover:opacity-90 sm:w-auto">
-          Download for macOS
+          {{ t.hero.download }}
         </a>
         <a [href]="repo" class="w-full rounded-full border border-ink/15 px-6 py-3 font-semibold hover:bg-surface sm:w-auto">
-          View on GitHub
+          {{ t.hero.github }}
         </a>
       </div>
-      <p class="mt-4 text-sm text-muted">macOS 26 · iOS 26 · iPadOS 26 · Free and open source (GPLv3)</p>
+      <p class="mt-4 text-sm text-muted">{{ t.hero.platforms }}</p>
 
       <!-- Editor mock: a note rendered with the theme's link, tag, highlight and callout colors -->
       <figure class="mx-auto mt-16 max-w-4xl overflow-hidden rounded-2xl border border-ink/10 bg-bg text-left shadow-2xl shadow-accent/20">
@@ -43,41 +46,39 @@
           <span class="size-3 rounded-full bg-[#FF5F57]"></span>
           <span class="size-3 rounded-full bg-[#FEBC2E]"></span>
           <span class="size-3 rounded-full bg-[#28C840]"></span>
-          <span class="ml-3 truncate text-xs text-muted">Projects / Netherite launch.md</span>
+          <span class="ml-3 truncate text-xs text-muted">{{ t.mock.crumb }}</span>
         </div>
         <div class="grid sm:grid-cols-[13rem_1fr]">
           <aside class="hidden border-r border-ink/10 bg-surface/60 p-4 text-sm sm:block" aria-hidden="true">
-            <p class="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">Vault</p>
+            <p class="mb-2 text-xs font-semibold tracking-wide text-muted uppercase">{{ t.mock.vault }}</p>
             <ul class="space-y-1.5 text-ink/80">
-              <li>📁 Daily</li>
-              <li>📁 Projects</li>
-              <li class="rounded-md bg-accent/15 px-2 py-0.5 font-medium text-accent">Netherite launch</li>
-              <li>📁 Reading</li>
+              <li>📁 {{ t.mock.daily }}</li>
+              <li>📁 {{ t.mock.projects }}</li>
+              <li class="rounded-md bg-accent/15 px-2 py-0.5 font-medium text-accent">{{ t.mock.note }}</li>
+              <li>📁 {{ t.mock.reading }}</li>
               <li>Ideas.canvas</li>
-              <li>Books.base</li>
+              <li>{{ t.mock.base }}</li>
             </ul>
           </aside>
           <div class="p-6 sm:p-8">
-            <h2 class="text-2xl font-bold tracking-tight">Netherite launch</h2>
+            <h2 class="text-2xl font-bold tracking-tight">{{ t.mock.note }}</h2>
             <p class="mt-1 text-sm">
-              <span class="text-tag">#project</span> <span class="ml-2 text-tag">#writing</span>
+              <span class="text-tag">{{ t.mock.tags[0] }}</span> <span class="ml-2 text-tag">{{ t.mock.tags[1] }}</span>
             </p>
             <p class="mt-4 leading-relaxed">
-              Ship the landing page, then write up the notes from
-              <span class="text-link underline decoration-link/40 underline-offset-2">[[Weekly review]]</span>. Remember:
-              <mark class="rounded bg-mark px-1 text-ink">your notes stay as plain files</mark>.
+              {{ t.mock.a }}<span class="text-link underline decoration-link/40 underline-offset-2">{{ t.mock.link }}</span>{{ t.mock.b }}<mark class="rounded bg-mark px-1 text-ink">{{ t.mock.mark }}</mark>{{ t.mock.c }}
             </p>
             <ul class="mt-4 space-y-2">
-              <li class="flex items-center gap-2"><span class="grid size-4 place-items-center rounded bg-accent text-[10px] text-on-accent">✓</span><span class="text-muted line-through">Design the hero</span></li>
-              <li class="flex items-center gap-2"><span class="size-4 rounded border border-ink/30"></span>Deploy to Cloudflare Pages</li>
+              <li class="flex items-center gap-2"><span class="grid size-4 place-items-center rounded bg-accent text-[10px] text-on-accent">✓</span><span class="text-muted line-through">{{ t.mock.done }}</span></li>
+              <li class="flex items-center gap-2"><span class="size-4 rounded border border-ink/30"></span>{{ t.mock.todo }}</li>
             </ul>
             <div class="mt-5 rounded-lg border-l-4 border-accent bg-accent/10 px-4 py-3 text-sm">
-              <p class="font-semibold text-accent">Tip</p>
-              <p class="mt-1 text-ink/80">Callouts, tables, math and Mermaid render right in the editor.</p>
+              <p class="font-semibold text-accent">{{ t.mock.tip }}</p>
+              <p class="mt-1 text-ink/80">{{ t.mock.tipText }}</p>
             </div>
           </div>
         </div>
-        <figcaption class="sr-only">Illustration of a note in the Netherite editor with tags, a wikilink, a highlight, tasks and a callout.</figcaption>
+        <figcaption class="sr-only">{{ t.mock.caption }}</figcaption>
       </figure>
     </div>
   </section>
@@ -85,16 +86,16 @@
   <!-- Features -->
   <section id="features" class="scroll-mt-14 border-t border-ink/10 bg-surface/50">
     <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-      <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">Everything a second brain needs</h2>
+      <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">{{ t.features.title }}</h2>
       <p class="mx-auto mt-4 max-w-2xl text-center text-lg text-muted">
-        Backlinks, a knowledge graph, an infinite canvas, database-like Bases and search with operators — all around a fast native editor.
+        {{ t.features.subtitle }}
       </p>
       <div class="mt-14 grid gap-10 md:grid-cols-2">
-        @for (group of groups; track group.title) {
+        @for (group of t.features.groups; track $index) {
           <div>
             <h3 class="text-sm font-semibold tracking-wide text-accent uppercase">{{ group.title }}</h3>
             <dl class="mt-4 grid gap-3">
-              @for (item of group.items; track item[0]) {
+              @for (item of group.items; track $index) {
                 <div class="rounded-xl border border-ink/10 bg-bg p-4">
                   <dt class="font-semibold">{{ item[0] }}</dt>
                   <dd class="mt-1 text-sm text-muted">{{ item[1] }}</dd>
@@ -111,20 +112,18 @@
   <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
     <div class="grid items-center gap-10 md:grid-cols-2">
       <div>
-        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">A vault is just a folder.</h2>
+        <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{{ t.folder.title }}</h2>
         <p class="mt-4 text-lg text-muted">
-          No database, no lock-in. Every note is a Markdown file any other app can read — including Obsidian, whose
-          wikilinks, <code class="font-mono text-sm">.canvas</code> and <code class="font-mono text-sm">.base</code> files Netherite understands.
-          Keep your vault in iCloud Drive to sync between devices, or anywhere on disk.
+          {{ t.folder.pre }}<code class="font-mono text-sm">.canvas</code>{{ t.folder.and }}<code class="font-mono text-sm">.base</code>{{ t.folder.post }}
         </p>
       </div>
-      <pre class="overflow-x-auto rounded-2xl border border-ink/10 bg-surface p-6 font-mono text-sm leading-relaxed" aria-label="Example vault folder"><span class="text-muted">~/iCloud Drive/Notes</span>
-├── <span class="text-accent">Daily/</span>
+      <pre class="overflow-x-auto rounded-2xl border border-ink/10 bg-surface p-6 font-mono text-sm leading-relaxed" [attr.aria-label]="t.folder.treeLabel"><span class="text-muted">{{ t.folder.root }}</span>
+├── <span class="text-accent">{{ t.folder.daily }}</span>
 │   └── 2026-10-05.md
-├── <span class="text-accent">Projects/</span>
-│   └── Netherite launch.md
+├── <span class="text-accent">{{ t.folder.projects }}</span>
+│   └── {{ t.folder.note }}
 ├── Ideas.canvas
-├── Books.base
+├── {{ t.folder.base }}
 └── <span class="text-muted">.netherite/</span>
     └── themes/</pre>
     </div>
@@ -133,13 +132,13 @@
   <!-- Open source -->
   <section id="open" class="scroll-mt-14 px-4 pb-24 sm:px-6">
     <div class="mx-auto max-w-4xl rounded-3xl bg-accent px-6 py-14 text-center text-on-accent sm:px-12">
-      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Free, open source, yours.</h2>
+      <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">{{ t.open.title }}</h2>
       <p class="mx-auto mt-4 max-w-xl text-lg opacity-90">
-        Netherite is licensed under the GPLv3, available in English and Spanish, and follows Apple's Human Interface Guidelines.
+        {{ t.open.text }}
       </p>
       <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-        <a [href]="download" class="rounded-full bg-on-accent px-6 py-3 font-semibold text-accent hover:opacity-90">Download the latest release</a>
-        <a [href]="repo" class="rounded-full border border-current/40 px-6 py-3 font-semibold hover:bg-on-accent/10">Star on GitHub</a>
+        <a [href]="download" class="rounded-full bg-on-accent px-6 py-3 font-semibold text-accent hover:opacity-90">{{ t.open.download }}</a>
+        <a [href]="repo" class="rounded-full border border-current/40 px-6 py-3 font-semibold hover:bg-on-accent/10">{{ t.open.star }}</a>
       </div>
     </div>
   </section>
@@ -148,10 +147,10 @@
 <footer class="border-t border-ink/10">
   <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 pt-8 text-sm text-muted sm:flex-row sm:px-6">
     <p>© {{ year }} FranciscoSolis E.I.R.L. GPLv3.</p>
-    <p>Not affiliated with or endorsed by Obsidian.</p>
+    <p>{{ t.footer.affiliation }}</p>
   </div>
   <p class="px-4 pb-8 pt-4 text-center text-sm text-muted">
-    Made with <span role="img" aria-label="coffee">☕</span> by
+    {{ t.footer.made }} <span role="img" [attr.aria-label]="t.footer.coffee">☕</span> {{ t.footer.by }}
     <a href="https://fsolism.cl" class="hover:text-ink">FranciscoSolis E.I.R.L.</a>
   </p>
 </footer>
