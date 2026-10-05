@@ -10,7 +10,7 @@
 [![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)](https://angular.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-Pages-F38020?logo=cloudflarepages&logoColor=white)](https://pages.cloudflare.com)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflareworkers&logoColor=white)](https://workers.cloudflare.com)
 
 [Netherite app](https://github.com/Im-Fran/Netherite) · [Latest release](https://github.com/Im-Fran/Netherite/releases/latest)
 
@@ -44,13 +44,13 @@ It is built with Angular and Tailwind CSS v4, has no backend and needs no enviro
 | Language | TypeScript 6 |
 | Styling | Tailwind CSS 4 via `@tailwindcss/postcss` |
 | Build | `@angular/build` (application builder, Vite dev server) |
-| Hosting | Cloudflare Pages |
+| Hosting | Cloudflare Workers (static assets) |
 
 ---
 
 ## 📋 Requirements
 
-- **Node.js** — a release supported by Angular 22
+- **Node.js** — 24.18.0 (pinned in `.nvmrc`); any release supported by Angular 22 works
 - **npm** 11 (the repo pins `npm@11.19.1` in `packageManager`)
 - **Git**
 
@@ -81,13 +81,17 @@ There is no test or lint script; `npm run build` is the check that everything co
 
 ## 🌐 Deployment
 
-The site is deployed with **Cloudflare Pages**:
+The site is deployed as static assets on **Cloudflare Workers**, built by Workers Builds:
 
 | Setting | Value |
 |---------|-------|
 | Production branch | `dev` |
 | Build command | `npm run build` |
-| Build output directory | `dist/netherite-landing/browser` |
+| Deploy command | `npx wrangler deploy` |
+| Assets directory | `dist/netherite-landing/browser`, set in [`wrangler.jsonc`](wrangler.jsonc) |
+| Node.js | `24.18.0`, read from [`.nvmrc`](.nvmrc) |
+
+Workers has no output-directory field in the dashboard: the assets directory lives in `wrangler.jsonc`, and its `name` must match the Worker's name (`netherite`). Without that file, Wrangler guesses `dist/` and the site answers 404 at `/`. Angular 22 needs Node `^22.22.3 || ^24.15.0 || >=26`; `.nvmrc` keeps the build on a supported version even if the default changes.
 
 Any static host works with the same build command and output directory.
 
