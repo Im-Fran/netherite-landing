@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+/* The app's default "Netherite" theme (NetheriteCore/Vault/Theme.swift + ThemeAccessibility.swift). */
+:root {
+  --nth-accent: #635385;
+  --nth-link: #5b4a8e;
+  --nth-tag: #6e5a9e;
+  --nth-mark: #f4e27a;
+  --nth-bg: #ffffff;
+  --nth-surface: #f2f2f7;
+  --nth-text: #1d1d1f;
+  --nth-muted: #6e6e73;
+  --nth-on-accent: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nth-accent: #b09edb;
+    --nth-link: #b7a6e6;
+    --nth-tag: #c4b5f0;
+    --nth-mark: #6b5b1f;
+    --nth-bg: #1e1e1e;
+    --nth-surface: #2c2c2e;
+    --nth-text: #e8e8ed;
+    --nth-muted: #98989d;
+    --nth-on-accent: #1e1e1e;
+  }
+}
+
+@theme inline {
+  --color-accent: var(--nth-accent);
+  --color-link: var(--nth-link);
+  --color-tag: var(--nth-tag);
+  --color-mark: var(--nth-mark);
+  --color-bg: var(--nth-bg);
+  --color-surface: var(--nth-surface);
+  --color-ink: var(--nth-text);
+  --color-muted: var(--nth-muted);
+  --color-on-accent: var(--nth-on-accent);
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  @apply bg-bg font-sans text-ink antialiased;
+}
