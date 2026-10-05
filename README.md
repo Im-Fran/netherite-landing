@@ -6,6 +6,7 @@
 
 **The website for [Netherite](https://github.com/Im-Fran/Netherite), a native, local-first notes app for Mac, iPhone and iPad.**
 
+[![License: GPL v3](https://img.shields.io/github/license/Im-Fran/netherite-landing)](LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-22-DD0031?logo=angular&logoColor=white)](https://angular.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -128,7 +129,7 @@ Issues and pull requests are welcome. `dev` is the default and production branch
 
 ## 📄 License
 
-Published under the **GPLv3**, as stated in the site's footer — the same license as [Netherite](https://github.com/Im-Fran/Netherite). © FranciscoSolis E.I.R.L.
+This project is licensed under the **GNU GPLv3** — see the [LICENSE](LICENSE) file for details. It is the same license as [Netherite](https://github.com/Im-Fran/Netherite). © FranciscoSolis E.I.R.L.
 
 ---
 
