@@ -72,7 +72,8 @@ Open [http://localhost:4200](http://localhost:4200). The page reloads as you edi
 | Command | What it does |
 |---------|--------------|
 | `npm start` | Dev server (`ng serve`) on port 4200 |
-| `npm run build` | Production build into `dist/netherite-landing/browser` |
+| `npm run build` | Self-tests and builds the catalogs, then a production build into `dist/netherite-landing/browser` |
+| `npm run catalog` | Regenerates `public/templates/index.json` and `public/themes/index.json` |
 | `npm run watch` | Development build that rebuilds on change (`ng build --watch --configuration development`) |
 
 There is no test or lint script; `npm run build` is the check that everything compiles.
@@ -108,9 +109,30 @@ src/
     ├── app.ts      # Language state, document title/description, repo and download URLs
     ├── app.html    # Header, hero + editor mock-up, features, vault folder, open-source CTA, footer
     ├── app.config.ts
-    └── i18n.ts     # All copy, in English (`en`) and Spanish (`es`)
-public/             # icon.png, favicon.png
+    ├── i18n.ts     # All copy, in English (`en`) and Spanish (`es`)
+    ├── template-gallery.ts  # Searchable template gallery with preview, copy and download
+    └── theme-gallery.ts     # Theme cards with light/dark previews and JSON download
+public/
+├── templates/{en,es}/*.md  # Template sources (catalog metadata in `template-*` frontmatter keys)
+├── themes/*.json           # The app's built-in tones, in its Theme JSON format
+└── _headers                # CORS + caching for /templates/* and /themes/*
+scripts/build-catalog.mjs   # Builds both index.json files (generated, not committed); `--check` runs its self-tests
 ```
+
+---
+
+## 📚 Template & theme catalogs
+
+The site also serves the catalogs the app and the web read remotely:
+
+| URL | Contents |
+|-----|----------|
+| `/templates/index.json` | `{ version, templates: [{ id, lang, name, description, symbol, tags, path, body }] }`, the format of Netherite's `TemplateCatalog` |
+| `/templates/<lang>/<id>.md` | Template source |
+| `/themes/index.json` | `{ version, themes: [{ id, path, ...theme }] }` |
+| `/themes/<id>.json` | A theme, ready to drop into a vault's `.netherite/themes/` |
+
+To add a template, commit `public/templates/en/<id>.md` (and optionally `es/<id>.md`) with at least `template-name:`; to add a theme, commit `public/themes/<id>.json` with at least `name`. The build validates them and regenerates the indexes.
 
 ---
 
