@@ -10,6 +10,8 @@
     </a>
     <div class="flex items-center gap-1 text-sm sm:gap-4">
       <a href="#features" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.features }}</a>
+      <a href="#templates" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.templates }}</a>
+      <a href="#themes" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.themes }}</a>
       <a href="#open" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.open }}</a>
       <a [href]="repo" class="rounded-md px-2 py-1 text-muted hover:text-ink">{{ t.nav.github }}</a>
       <button type="button" (click)="toggle()" [attr.lang]="other()" [attr.aria-label]="otherName()" [title]="otherName()" class="rounded-md px-2 py-1 font-medium text-muted hover:text-ink">{{ other().toUpperCase() }}</button>
@@ -105,6 +107,22 @@
           </div>
         }
       </div>
+    </div>
+  </section>
+
+  <!-- Template gallery (public/templates, also read by the app) -->
+  <section id="templates" class="mx-auto max-w-6xl scroll-mt-14 px-4 py-20 sm:px-6 sm:py-28">
+    <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">{{ t.templates.title }}</h2>
+    <p class="mx-auto mt-4 mb-10 max-w-2xl text-center text-lg text-muted">{{ t.templates.subtitle }}</p>
+    <app-template-gallery [lang]="lang()" [strings]="t.templates" />
+  </section>
+
+  <!-- Themes (public/themes, the app's built-in tones) -->
+  <section id="themes" class="scroll-mt-14 border-y border-ink/10 bg-surface/50">
+    <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
+      <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">{{ t.themes.title }}</h2>
+      <p class="mx-auto mt-4 mb-10 max-w-2xl text-center text-lg text-muted">{{ t.themes.subtitle }}</p>
+      <app-theme-gallery [strings]="t.themes" />
     </div>
   </section>
 
