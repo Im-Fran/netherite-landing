@@ -1,6 +1,7 @@
 {
   "name": "netherite-landing",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "catalog": "node scripts/build-catalog.mjs",

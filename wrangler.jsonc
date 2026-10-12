@@ -1,7 +1,11 @@
 {
   "name": "netherite",
   "compatibility_date": "2026-10-05",
+  // Lets Workers Builds publish a Preview (`wrangler preview`) for non-production branches.
+  "previews": {},
   "assets": {
-    "directory": "./dist/netherite-landing/browser"
+    "directory": "./dist/netherite-landing/browser",
+    // /editor is rendered by the same index.html.
+    "not_found_handling": "single-page-application"
   }
 }

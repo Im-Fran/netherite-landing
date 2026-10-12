@@ -2,7 +2,7 @@ import { Component, computed, ElementRef, input, resource, signal, viewChild } f
 import type { Lang, Strings } from './i18n';
 
 // Same shape as Netherite's TemplateCatalog (templates/index.json, built by scripts/build-catalog.mjs).
-interface Entry {
+export interface Entry {
   id: string;
   lang: string;
   name: string;
@@ -12,6 +12,15 @@ interface Entry {
   path: string;
   body: string;
 }
+
+export const templateCatalog = () =>
+  resource({
+    loader: ({ abortSignal }) =>
+      fetch('/templates/index.json', { signal: abortSignal }).then((r) => {
+        if (!r.ok) throw new Error(`${r.status}`);
+        return r.json() as Promise<{ templates: Entry[] }>;
+      }),
+  });
 
 @Component({
   selector: 'app-template-gallery',
@@ -76,13 +85,7 @@ export class TemplateGallery {
   readonly lang = input.required<Lang>();
   readonly strings = input.required<Strings['templates']>();
 
-  readonly catalog = resource({
-    loader: ({ abortSignal }) =>
-      fetch('templates/index.json', { signal: abortSignal }).then((r) => {
-        if (!r.ok) throw new Error(`${r.status}`);
-        return r.json() as Promise<{ templates: Entry[] }>;
-      }),
-  });
+  readonly catalog = templateCatalog();
 
   // One entry per template in the page's language, else English (TemplateCatalog.entries(for:)).
   readonly entries = computed(() => {

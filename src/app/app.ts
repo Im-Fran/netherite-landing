@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Editor } from './editor';
 import { type Lang, STRINGS } from './i18n';
 import { TemplateGallery } from './template-gallery';
 import { ThemeGallery } from './theme-gallery';
@@ -17,13 +18,15 @@ function initialLang(): Lang {
 
 @Component({
   selector: 'app-root',
-  imports: [TemplateGallery, ThemeGallery],
+  imports: [Editor, TemplateGallery, ThemeGallery],
   templateUrl: './app.html',
 })
 export class App {
   readonly repo = REPO;
   readonly download = `${REPO}/releases/latest`;
   readonly year = new Date().getFullYear();
+  // ponytail: one extra page, so a path check instead of @angular/router; add the router if pages multiply.
+  readonly isEditor = location.pathname.replace(/\/+$/, '') === '/editor';
 
   readonly lang = signal<Lang>(initialLang());
   readonly strings = computed(() => STRINGS[this.lang()]);
@@ -36,7 +39,7 @@ export class App {
     effect(() => {
       const t = this.strings();
       document.documentElement.lang = this.lang();
-      title.setTitle(t.title);
+      title.setTitle(this.isEditor ? `${t.editor.title} — Netherite` : t.title);
       meta.updateTag({ name: 'description', content: t.description });
     });
   }

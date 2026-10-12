@@ -111,7 +111,13 @@ src/
     ├── app.config.ts
     ├── i18n.ts     # All copy, in English (`en`) and Spanish (`es`)
     ├── template-gallery.ts  # Searchable template gallery with preview, copy and download
-    └── theme-gallery.ts     # Theme cards with light/dark previews and JSON download
+    ├── theme-gallery.ts     # Theme cards with light/dark previews and JSON download
+    ├── theme-preview.ts     # A theme's colors on a sample note (gallery and editor); Theme types and defaults
+    ├── catalog-format.ts    # Template file parse/compose, slugs, WCAG contrast (also run by the build script)
+    ├── editor.ts            # /editor page: theme and template tabs
+    ├── theme-editor.ts / template-editor.ts
+    ├── editor-output.ts     # Generated file with copy, download and "Propose on GitHub"
+    └── persisted.ts         # localStorage-backed signal for drafts
 public/
 ├── templates/{en,es}/*.md  # Template sources (catalog metadata in `template-*` frontmatter keys)
 ├── themes/*.json           # The app's built-in tones, in its Theme JSON format
@@ -132,7 +138,13 @@ The site also serves the catalogs the app and the web read remotely:
 | `/themes/index.json` | `{ version, themes: [{ id, path, ...theme }] }` |
 | `/themes/<id>.json` | A theme, ready to drop into a vault's `.netherite/themes/` |
 
-To add a template, commit `public/templates/en/<id>.md` (and optionally `es/<id>.md`) with at least `template-name:`; to add a theme, commit `public/themes/<id>.json` with at least `name`. The build validates them and regenerates the indexes.
+### Content editor
+
+`/editor` builds a theme or a template in the browser, with no sign-in: a live light/dark preview and WCAG contrast checks for themes, placeholder buttons for templates, and validation against the published catalog (name taken, missing English version, built-in theme names). The result can be copied, downloaded, or proposed: **Propose on GitHub** opens GitHub's new-file page with the file filled in at its catalog path, where GitHub forks the repo and opens the pull request. Drafts are kept in `localStorage`.
+
+`/editor` is served by the same `index.html` through `not_found_handling: "single-page-application"` in `wrangler.jsonc`.
+
+To add a template by hand, commit `public/templates/en/<id>.md` (and optionally `es/<id>.md`) with at least `template-name:`; to add a theme, commit `public/themes/<id>.json` with at least `name`. The build validates them and regenerates the indexes.
 
 ---
 

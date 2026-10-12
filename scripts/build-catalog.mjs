@@ -4,32 +4,16 @@
 //
 // Template metadata lives in `template-*` lines of the frontmatter; they are removed as text
 // (bodies use {{placeholders}}, which aren't valid YAML) and the rest is the body the app installs.
-// Same format as Netherite's TemplateCatalog. `--check` runs the self-tests.
+// Same format as Netherite's TemplateCatalog; the format itself lives in src/app/catalog-format.ts,
+// shared with the web editor. `--check` runs the self-tests.
 import assert from 'node:assert/strict';
 import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { compose, contrast, parse, slug } from '../src/app/catalog-format.ts';
 
 const PUBLIC = new URL('../public/', import.meta.url).pathname;
 const LANGS = ['en', 'es'];
-
-/** Returns [metadata without the `template-` prefix, installable body]. */
-export function parse(text) {
-  const lines = text.split('\n');
-  if (lines[0]?.trim() !== '---') return [{}, text];
-  const end = lines.findIndex((l, i) => i > 0 && l.trim() === '---');
-  if (end < 0) return [{}, text];
-  const meta = {};
-  const kept = [];
-  for (const line of lines.slice(1, end)) {
-    const i = line.indexOf(':');
-    const key = line.slice(0, i).trim();
-    if (i >= 0 && key.startsWith('template-')) meta[key.slice('template-'.length)] = line.slice(i + 1).trim();
-    else kept.push(line);
-  }
-  const rest = lines.slice(end + 1).join('\n');
-  return [meta, kept.length ? `---\n${kept.join('\n')}\n---\n${rest}` : rest.replace(/^\n+/, '')];
-}
 
 export function buildTemplates(root) {
   const entries = [];
@@ -77,6 +61,17 @@ function check() {
   assert.equal(parse('---\ntemplate-name: To-do\n---\n# {{title}}\n')[1], '# {{title}}\n');
   assert.deepEqual(parse('# plain\n'), [{}, '# plain\n']);
   assert.deepEqual(parse('---\nunclosed\n'), [{}, '---\nunclosed\n']);
+
+  // compose is parse's inverse, with or without the body's own frontmatter.
+  for (const b of ['---\ndate: {{date}}\n---\n# {{title}}\n\n---\nend\n', '# {{title}}\n', '']) {
+    const m = { name: 'Meeting', description: 'Agenda: notes', tags: 'work, meetings' };
+    assert.deepEqual(parse(compose(m, b)), [m, b]);
+  }
+  assert.equal(compose({ name: 'A', symbol: '' }, '---\n---\n# A\n'), '---\ntemplate-name: A\n---\n# A\n');
+  assert.equal(compose({ name: 'Two\nlines' }, ''), '---\ntemplate-name: Two lines\n---\n');
+  assert.equal(slug('Reunión 1:1 — Ñandú!'), 'reunion-1-1-nandu');
+  assert.equal(contrast('#000000', '#FFFFFF').toFixed(1), '21.0');
+  assert.equal(contrast('#635385', '#FFFFFF').toFixed(2), '6.76');
 
   const dir = mkdtempSync(join(tmpdir(), 'catalog-'));
   try {
