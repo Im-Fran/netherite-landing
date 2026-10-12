@@ -3,8 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "catalog": "node scripts/build-catalog.mjs",
+    "prestart": "npm run catalog",
     "start": "ng serve",
+    "prebuild": "node scripts/build-catalog.mjs --check && npm run catalog",
     "build": "ng build",
+    "prewatch": "npm run catalog",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,

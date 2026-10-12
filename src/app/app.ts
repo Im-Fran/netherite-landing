@@ -1,6 +1,8 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { type Lang, STRINGS } from './i18n';
+import { TemplateGallery } from './template-gallery';
+import { ThemeGallery } from './theme-gallery';
 
 const REPO = 'https://github.com/Im-Fran/Netherite';
 
@@ -15,6 +17,7 @@ function initialLang(): Lang {
 
 @Component({
   selector: 'app-root',
+  imports: [TemplateGallery, ThemeGallery],
   templateUrl: './app.html',
 })
 export class App {

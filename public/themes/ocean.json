@@ -1,0 +1,8 @@
+{
+  "name": "Ocean",
+  "accent": { "light": "#0B6E99", "dark": "#4FB3E0" },
+  "link": { "light": "#0A5F8A", "dark": "#6CC4EC" },
+  "tag": { "light": "#00796B", "dark": "#4DD0C0" },
+  "highlight": { "light": "#BFE9F5", "dark": "#134E5E" },
+  "background": { "light": "#F5F9FC", "dark": "#0F1A22" }
+}
