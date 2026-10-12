@@ -4,15 +4,16 @@
 
 <header class="sticky top-0 z-40 border-b border-ink/10 bg-bg/80 backdrop-blur-xl">
   <nav class="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6" [attr.aria-label]="t.nav.label">
-    <a href="#" class="flex items-center gap-2 font-semibold tracking-tight">
+    <a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
       <img src="icon.png" alt="" width="28" height="28" class="size-7 rounded-md" />
       Netherite
     </a>
     <div class="flex items-center gap-1 text-sm sm:gap-4">
-      <a href="#features" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.features }}</a>
-      <a href="#templates" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.templates }}</a>
-      <a href="#themes" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.themes }}</a>
-      <a href="#open" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.open }}</a>
+      <a href="/#features" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.features }}</a>
+      <a href="/#templates" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.templates }}</a>
+      <a href="/#themes" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline">{{ t.nav.themes }}</a>
+      <a href="/editor" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink md:inline" [attr.aria-current]="isEditor ? 'page' : null">{{ t.nav.editor }}</a>
+      <a href="/#open" class="hidden rounded-md px-2 py-1 text-muted hover:text-ink sm:inline">{{ t.nav.open }}</a>
       <a [href]="repo" class="rounded-md px-2 py-1 text-muted hover:text-ink">{{ t.nav.github }}</a>
       <button type="button" (click)="toggle()" [attr.lang]="other()" [attr.aria-label]="otherName()" [title]="otherName()" class="rounded-md px-2 py-1 font-medium text-muted hover:text-ink">{{ other().toUpperCase() }}</button>
       <a [href]="download" class="rounded-full bg-accent px-4 py-1.5 font-medium text-on-accent hover:opacity-90">{{ t.nav.download }}</a>
@@ -20,6 +21,11 @@
   </nav>
 </header>
 
+@if (isEditor) {
+<main id="main">
+  <app-editor [lang]="lang()" [strings]="t.editor" />
+</main>
+} @else {
 <main id="main">
   <!-- Hero -->
   <section class="relative overflow-hidden">
@@ -115,6 +121,7 @@
     <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">{{ t.templates.title }}</h2>
     <p class="mx-auto mt-4 mb-10 max-w-2xl text-center text-lg text-muted">{{ t.templates.subtitle }}</p>
     <app-template-gallery [lang]="lang()" [strings]="t.templates" />
+    <p class="mt-10 text-center"><a href="/editor#template" class="font-medium text-accent hover:underline">{{ t.editor.cta }} →</a></p>
   </section>
 
   <!-- Themes (public/themes, the app's built-in tones) -->
@@ -123,6 +130,7 @@
       <h2 class="text-center text-3xl font-bold tracking-tight sm:text-4xl">{{ t.themes.title }}</h2>
       <p class="mx-auto mt-4 mb-10 max-w-2xl text-center text-lg text-muted">{{ t.themes.subtitle }}</p>
       <app-theme-gallery [strings]="t.themes" />
+      <p class="mt-10 text-center"><a href="/editor#theme" class="font-medium text-accent hover:underline">{{ t.editor.cta }} →</a></p>
     </div>
   </section>
 
@@ -161,6 +169,7 @@
     </div>
   </section>
 </main>
+}
 
 <footer class="border-t border-ink/10">
   <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 pt-8 text-sm text-muted sm:flex-row sm:px-6">

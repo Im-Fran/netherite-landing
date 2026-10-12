@@ -2,6 +2,8 @@
   "name": "netherite",
   "compatibility_date": "2026-10-05",
   "assets": {
-    "directory": "./dist/netherite-landing/browser"
+    "directory": "./dist/netherite-landing/browser",
+    // /editor is rendered by the same index.html.
+    "not_found_handling": "single-page-application"
   }
 }
