@@ -1,0 +1,7 @@
+# The template and theme catalogs are read by the Netherite app and by other sites.
+/templates/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+/themes/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300

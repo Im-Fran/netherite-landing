@@ -1,0 +1,8 @@
+{
+  "name": "Ember",
+  "accent": { "light": "#C2410C", "dark": "#FF8A50" },
+  "link": { "light": "#B03A0A", "dark": "#FF9E6B" },
+  "tag": { "light": "#A3367A", "dark": "#F28FC0" },
+  "highlight": { "light": "#FFE0B2", "dark": "#5C3A12" },
+  "background": { "light": "#FDF8F4", "dark": "#1E1612" }
+}

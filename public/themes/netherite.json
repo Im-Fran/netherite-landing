@@ -1,0 +1,7 @@
+{
+  "name": "Netherite",
+  "accent": { "light": "#635385", "dark": "#B09EDB" },
+  "link": { "light": "#5B4A8E", "dark": "#B7A6E6" },
+  "tag": { "light": "#6E5A9E", "dark": "#C4B5F0" },
+  "highlight": { "light": "#F4E27A", "dark": "#6B5B1F" }
+}

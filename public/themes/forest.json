@@ -1,0 +1,8 @@
+{
+  "name": "Forest",
+  "accent": { "light": "#2E7D32", "dark": "#7BC47F" },
+  "link": { "light": "#256B29", "dark": "#8FD394" },
+  "tag": { "light": "#5F6D1A", "dark": "#C2CF6B" },
+  "highlight": { "light": "#E3F2C1", "dark": "#3B4A16" },
+  "background": { "light": "#F6FAF5", "dark": "#121A14" }
+}

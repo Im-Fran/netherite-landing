@@ -1,0 +1,8 @@
+{
+  "name": "Rose",
+  "accent": { "light": "#BE185D", "dark": "#F472B6" },
+  "link": { "light": "#A3154F", "dark": "#F9A8D4" },
+  "tag": { "light": "#8E44AD", "dark": "#D7A6F0" },
+  "highlight": { "light": "#FCE4EC", "dark": "#5A2338" },
+  "background": { "light": "#FDF7F9", "dark": "#1F1418" }
+}
